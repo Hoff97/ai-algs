@@ -5,20 +5,21 @@ import Data.Array
 import Search.Online
 import Debug.Trace
 import System.Random
+import Util.Color
 
 newtype Grid = Grid (Array (Int,Int) Bool)
 
-drawGrid :: Grid -> Color -> Picture
-drawGrid (Grid a) c =
+drawGrid :: Grid -> Float -> Color -> Picture
+drawGrid (Grid a) s c =
   Pictures ((\((i,j),b) -> if b
-    then color c . translate (fromIntegral i*10) (fromIntegral j*10) $ rectangleSolid 10 10
+    then color c . translate (fromIntegral i*10) (fromIntegral j*10) $ rectangleSolid s s
     else blank) <$> assocs a)
 
 data State a = State { grid :: Grid, position :: (Int,Int), visited :: Grid, info :: a }
 
-drawState :: State a -> Picture
-drawState (State g (x,y) v _) = Pictures [
-  drawGrid v green,drawGrid g black,
+drawState :: (a -> Picture) -> State a -> Picture
+drawState drawInfo (State g (x,y) v i) = Pictures [
+  drawInfo i, drawGrid v 3 green, drawGrid g 10 black,
   color red . translate (fromIntegral x*10) (fromIntegral y*10) $ rectangleSolid 10 10]
 
 traceR x = traceShow x x
@@ -44,10 +45,22 @@ initState g = State g (2,2) vis $
 
 test = do
   g <- grid2
-  simulate (InWindow "Yay" (400,400) (200,200)) white 20 (initState $ Grid g) drawState (\_ _ m -> doLrta m)
+  simulate (InWindow "Yay" (400,400) (200,200)) white 1 (initState $ Grid g) (drawState drawHeur) (\_ _ m -> doLrta m)
 
-sizeX = 300
-sizeY = 300
+drawHeur :: Array (Int,Int) Double -> Picture
+drawHeur a = Pictures ((\((i,j),b) ->
+  color (fromHSV (toFloat b/maxD*360) 1 1) . translate (fromIntegral i*10) (fromIntegral j*10) $ rectangleSolid 10 10) <$> assocs a)
+
+fromHSV :: Float -> Float -> Float -> Color
+fromHSV h s v = case hsvToRGB (h,s,v) of (r,g,b) -> makeColor r g b 1
+
+toFloat :: Double -> Float
+toFloat = realToFrac
+
+sizeX = 10
+sizeY = 10
+maxD :: Float
+maxD = fromIntegral $ sizeX+sizeY
 
 grid2 = listArray ((1,1),(sizeX,sizeY)) <$> sequenceA [if x==1||y==1||x==sizeX||y==sizeY then return True
   else (< (0.3 :: Double)) <$> randomIO | x <- [1..sizeX], y <- [1..sizeY]]

@@ -3,6 +3,7 @@ module Search.Online where
 import Data.List (minimumBy)
 import Data.Function (on)
 
+--Online search based on a heuristic
 lrta :: a -> (a -> [a]) -> (a -> Double) -> (a -> a -> Double) -> Maybe (Double,a)
 lrta n s h st
   | h n == 0  = Just (0,n)
