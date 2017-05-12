@@ -36,5 +36,3 @@ revise :: (i,[a]) -> (i,[a]) -> (i -> a -> i -> a -> Bool) -> Maybe [a]
 revise (i,vs) (j,ws) c = case foldr (\v (l,vals) -> if any (c j v i) vs then (l,v:vals) else (True,vals)) (False,[]) ws of
   (True,vs) -> Just vs
   (False,_) -> Nothing
-
---TODO: AC-3

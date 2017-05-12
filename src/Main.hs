@@ -1,7 +1,7 @@
 module Main where
 
-import Examples.Queens
-import Logic.CSP
+import Math.Matrix
+import Examples.Math
 
 main :: IO ()
 main = do
