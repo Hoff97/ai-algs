@@ -1,5 +1,8 @@
 module Examples.Queens where
 
+import Logic.CSP
+import Data.Array
+
 newtype QBoard = QBoard [Int] deriving (Eq,Show)
 
 fitness :: QBoard -> Int
@@ -28,3 +31,8 @@ next (QBoard (x:xs)) = nextI ++ ((\i -> QBoard . ((xs!!i):) $ update i x xs) <$>
 
 test1 = QBoard [1,2,3,4]
 test2 = QBoard [3,1,2,4]
+
+cspN :: Int -> CSP Int Int
+cspN n = CSP (array (1,n) [ (i,[1..n]) | i <- [1..n]]) check (\i -> filter (/=i) [1..n])
+  where
+    check a b c d = (b /= d) && (abs (a-c) /= abs (b-d))

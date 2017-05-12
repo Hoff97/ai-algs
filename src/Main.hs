@@ -1,8 +1,7 @@
 module Main where
 
 import Examples.Queens
-import Search.Continuous
-import Examples.GridSearch
+import Logic.CSP
 
 main :: IO ()
 main = do
