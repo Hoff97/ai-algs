@@ -1,6 +1,9 @@
 module Util.Queue where
 
-data Queue a = Queue { front :: [a], back :: [a] }
+data Queue a = Queue { front :: [a], back :: [a] } deriving Show
+
+instance Eq a => Eq (Queue a) where
+  (Queue f1 b1) == (Queue f2 b2) = f1 ++ reverse b1 == f2 ++ reverse b2
 
 emptyQ :: Queue a
 emptyQ = Queue [] []
@@ -24,6 +27,9 @@ pop (Queue (a:as) bs) = Just (a,Queue as bs)
 
 pushAll :: [a] -> Queue a -> Queue a
 pushAll [] q = q
-pushAll xs (Queue [] []) = Queue (reverse xs) []
-pushAll xs (Queue as []) = Queue as xs
-pushAll xs (Queue as bs) = Queue as (bs++xs)
+pushAll xs (Queue [] []) = Queue xs []
+pushAll xs (Queue as []) = Queue as $ reverse xs
+pushAll xs (Queue as bs) = Queue as (reverse xs ++ bs)
+
+popAll :: Queue a -> [a]
+popAll (Queue as bs) = as ++ reverse bs

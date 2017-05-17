@@ -1,9 +1,7 @@
 module Tests where
 
 import Test.QuickCheck (quickCheck)
-
-prop_reverseReverse :: [Char] -> Bool
-prop_reverseReverse s = (reverse . reverse) s == s
+import Util.QueueTest
 
 main = do
-  quickCheck prop_reverseReverse
+  queueTest
