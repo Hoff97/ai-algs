@@ -1,6 +1,9 @@
+{-# LANGUAGE TupleSections #-}
+
 module Math.Matrix where
 
 import Data.Array
+import System.Random
 
 newtype Matrix i a = Matrix (Array (i,i) a)
 
@@ -56,3 +59,6 @@ det a
 
 replaceCol :: (Enum i, Num i, Ix i) => Matrix i a -> i -> Array i a -> Matrix i a
 replaceCol a ci col = let (c,d) = dim a in matrix (c,d) [(i,j,if j==ci then col!i else a&(i,j)) | i <- [1..c], j <- [1..d]]
+
+randomMatr :: Random a => (Int,Int) -> IO (Matrix Int a)
+randomMatr (m,n) = matrix (m,n) <$> sequenceA [(i,j,) <$> randomIO | i <- [1..m], j <- [1..n]]

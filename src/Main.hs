@@ -1,8 +1,14 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE OverloadedLists #-}
+
 module Main where
 
 import Math.Matrix
-import Examples.Math
+import Learning.NeuralNet
 
 main :: IO ()
 main = do
-  putStrLn "hello world"
+  print "Hi"
+
+test :: Vec Double
+test = [1,2,3]
