@@ -40,4 +40,4 @@ learnMultiple :: (Show a, Num a) => a -> NN a -> (a -> a) -> (a -> a) -> [(Vec a
 learnMultiple lR nn f f' [] = nn
 learnMultiple lR nn f f' ((input,output):xs) = learnMultiple lR nn' f f' xs
   where
-    nn' = traceShow ("Iteration",length xs,nn) $ learn lR input output nn f f'
+    nn' = learn lR input output nn f f'

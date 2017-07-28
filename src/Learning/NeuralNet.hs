@@ -10,7 +10,7 @@ import Math.Matrix
 import System.Random
 import GHC.Exts (IsList,fromList,toList, Item)
 
-newtype NN a = NN (Array Int (Matrix Int a)) deriving Show
+newtype NN a = NN (Array Int (Matrix Int a)) deriving (Show,Read,Functor)
 
 newtype Vec a = Vec (Array Int a) deriving (Show, Functor)
 

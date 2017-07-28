@@ -5,10 +5,7 @@ module Math.Matrix where
 import Data.Array
 import System.Random
 
-newtype Matrix i a = Matrix (Array (i,i) a)
-
-instance (Enum i, Ix i, Num i, Show a) => Show (Matrix i a) where
-  show = show . rows
+newtype Matrix i a = Matrix (Array (i,i) a) deriving (Show, Read)
 
 rows :: (Enum i, Ix i, Num i) => Matrix i a -> [[a]]
 rows b@(Matrix a) = let (m,n) = dim b in [(\j -> a!(i,j)) <$> [1..n] | i <- [1..m]]

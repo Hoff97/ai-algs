@@ -2,45 +2,32 @@
 
 module Main where
 
-import Graphics.UI.WX
+--import Graphics.UI.WX
 import Data.IORef
+import Graphic.Normalize
+import Graphic.Categorize
+import Graphic.LearnLoad
+import Learning.NeuralNet
+import Learning.Backpropagation
+import Codec.Picture
 
-main :: IO ()
-main
-  = start hello
+main = do
+  ls <- loadIndex 10 "res/img/numbers/index/N" (\(PixelRGB8 r _ _) -> fromIntegral (r-255) / 255)
+  let ls' = (\(a,b,c) -> (b,c)) <$> ls
+  nn <- ((/100) <$>) <$> randomNN [(400,400),(400,400),(10,400)]
+  print $ value nn id (fst (ls'!!0))
+  let nn' = learnMultiple (-0.001) nn id (const 1) ls'
+  print $ value nn' id (fst (ls'!!0))
+  print "yay"
 
-hello :: IO ()
-hello = do
-  f    <- frame    [text := "Hello!"]
-  quit <- button f [text := "Quit", on command := close f]
-  img <- imageCreateFromFile (path ++ "1.jpg")
-  bm <- bitmapFromImage img >>= newIORef
-  c <- newIORef 1
-  l :: IORef [(Int,Maybe Int)] <- newIORef []
-  sw   <- scrolledWindow f [scrollRate := sz 100 100, on paint := onPaint bm
-                            ,bgcolor := white, fullRepaintOnResize := False]
-  set sw [on anyKey := t l c bm f]
-  set f [layout := column 1 [hfill $ hrule 1 ,fill (widget sw)],
-    clientSize := sz 300 200]
-  where
-    onPaint bm dc viewArea = do
-      b <- readIORef bm
-      drawBitmap dc b pointZero False []
-    t l c img f k = do
-      i <- readIORef c
-      modifyIORef c (+1)
-      if (head . show $ k) `elem` "0123456789" then do
-        modifyIORef l ((i,Just . read . show $ k):)
-        print "Added to index"
-      else modifyIORef l ((i,Nothing):)
-      if i < m then do
-        bm <- bitmapCreateFromFile (path ++ show (i+1) ++ ".jpg")
-        writeIORef img bm
-        repaint f
-      else do
-        list <- readIORef l
-        writeFile (path ++ "_result.txt") (show list)
-        close f
 
-path = "res/img/numbers/norm/testN"
-m = 107
+--TODO: Create index for MINST Data Set, do Backpropagation Learning with it...
+{-main :: IO ()
+main = do
+  n <- normalizeAll "res/img/numbers/test1.jpg" "res/img/numbers/normalized.jpg" "res/img/numbers/norm/N"
+  start $ categorize "res/img/numbers/norm/N" n s index
+
+index :: [(Int,Maybe Int)] -> IO ()
+index ls = do
+  addToIndex "res/img/numbers/norm/N" ls "res/img/numbers/index/N"
+  return ()-}

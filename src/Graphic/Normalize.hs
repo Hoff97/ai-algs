@@ -1,7 +1,7 @@
-module Util.Normalize where
+module Graphic.Normalize where
 
 import Codec.Picture
-import Util.Image
+import Graphic.Image
 import Control.Monad (forM_)
 
 normalizeAll pathI pathO output = do
@@ -18,6 +18,7 @@ normalizeAll pathI pathO output = do
     let t3 = normalize $ cut img a b
     saveJpgImage 100 (output ++ show i ++ ".jpg") (ImageRGB8 t3)
   print "Done Normalizing"
+  return $ length ls
 
 test img a b = countPixels img a b (\(PixelRGB8 r _ _) -> r<50)
 

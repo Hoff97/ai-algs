@@ -1,4 +1,4 @@
-module Util.Image where
+module Graphic.Image where
 
 import Codec.Picture
 import Codec.Picture.Types
