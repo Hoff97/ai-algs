@@ -59,3 +59,6 @@ replaceCol a ci col = let (c,d) = dim a in matrix (c,d) [(i,j,if j==ci then col!
 
 randomMatr :: Random a => (Int,Int) -> IO (Matrix Int a)
 randomMatr (m,n) = matrix (m,n) <$> sequenceA [(i,j,) <$> randomIO | i <- [1..m], j <- [1..n]]
+
+matr :: a -> (Int,Int) -> Matrix Int a
+matr a (m,n) = matrix (m,n) [(i,j,a) | i <- [1..m], j <- [1..n]]

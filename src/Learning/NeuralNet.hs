@@ -14,6 +14,9 @@ newtype NN a = NN (Array Int (Matrix Int a)) deriving (Show,Read,Functor)
 
 newtype Vec a = Vec (Array Int a) deriving (Show, Functor)
 
+size :: Vec a -> Int
+size (Vec a) = snd . bounds $ a
+
 instance Num a => Num (Vec a) where
   (Vec a) + (Vec b) = let (m,n) = bounds a in Vec $ array (m,n) [(i,a!i + b!i) | i <- [m..n]]
   (Vec a) * (Vec b) = let (m,n) = bounds a in Vec $ array (m,n) [(i,a!i * b!i) | i <- [m..n]]
@@ -61,3 +64,6 @@ randomNN dims = NN <$> x
     x = do
       ls <- sequenceA (randomMatr <$> dims)
       return $ array (1,length ls) (zip [1..] ls)
+
+nn :: a -> [(Int,Int)] -> NN a
+nn a dims = NN (array (1,length dims) (zip [1..] (matr a <$> dims)))

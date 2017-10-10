@@ -7,7 +7,7 @@ import Learning.NeuralNet
 import Data.Array (listArray)
 import Debug.Trace
 
-toInput :: Image PixelRGB8 -> (PixelRGB8 -> Double) -> Vec Double
+toInput :: Pixel a => Image a -> (a -> Double) -> Vec Double
 toInput img f = Vec $ listArray (1,x*y) pixels
   where
     pixels = [f $ pixelAt img i j | i <- [0..(x-1)], j <- [0..(y-1)]]
@@ -15,7 +15,7 @@ toInput img f = Vec $ listArray (1,x*y) pixels
     y = imageHeight img
 
 indexOutput :: Int -> Int -> Vec Double
-indexOutput i x = Vec $ listArray (1,x) (map (\j -> if j==i then 1 else 0) [1..x])
+indexOutput i x = Vec $ listArray (1,x) (map (\j -> if j-1==i then 1 else 0) [1..x])
 
 loadIndex :: (Integral a, Read a) => Int -> FilePath -> (PixelRGB8 -> Double) -> IO [(a,Vec Double, Vec Double)]
 loadIndex s path f = do
