@@ -174,29 +174,29 @@ type QBoard QBoard37,38
 end end39,40
 end end40,41
 
-./src/Examples/Tic.hs,500
+./src/Examples/Tic.hs,508
 module Examples.Tic Examples.Tic0,1
-data Field Field8,9
-data Field = Empty Empty8,9
-data Field = Empty | White White8,9
-data Field = Empty | White | Black Black8,9
-instance instance10,11
-data TicTac TicTac20,21
-data TicTac = Tic Tic20,21
-white white22,23
-white white23,24
-start start40,41
-start start41,42
-rows rows43,44
-rows rows44,45
-place place48,49
-place place49,50
-full full53,54
-full full54,55
-end end56,57
-end end57,58
-next next59,60
-next next60,61
+data Field Field10,11
+data Field = Empty Empty10,11
+data Field = Empty | White White10,11
+data Field = Empty | White | Black Black10,11
+instance instance12,13
+data TicTac TicTac22,23
+data TicTac = Tic Tic22,23
+white white24,25
+white white25,26
+start start42,43
+start start43,44
+rows rows45,46
+rows rows46,47
+place place50,51
+place place51,52
+full full55,56
+full full56,57
+end end58,59
+end end59,60
+next next61,62
+next next62,63
 
 ./src/Main.hs,37
 module Main Main0,1
@@ -220,34 +220,28 @@ module Search.Online Search.Online0,1
 lrta lrta6,7
 lrta lrta7,8
 
-./src/Search/Adversarial.hs,716
+./src/Search/Adversarial.hs,604
 module Search.Adversarial Search.Adversarial2,3
-class Heuristic Heuristic9,10
-class Heuristic Heuristic9,10
-  heuristic heuristic10,11
-  inverted inverted11,12
-  inverted inverted12,13
-data GTree GTree14,15
-data GTree a = End End14,15
-data GTree a = End a Double | Cutoff Cutoff14,15
-data GTree a = End a Double | Cutoff a Double | Next Next14,15
-childs childs16,17
-childs childs17,18
-value value20,21
-value value21,22
-instance instance25,26
-headS headS30,31
-headS headS31,32
-minMax minMax34,35
-minMax minMax35,36
-minMax' minMax'45,46
-minMax' minMax'46,47
-first first61,62
-first first62,63
-second second64,65
-second second65,66
-third third67,68
-third third68,69
+class Heuristic Heuristic11,12
+class Heuristic Heuristic11,12
+  heuristic heuristic12,13
+  inverted inverted13,14
+  inverted inverted14,15
+data GTree GTree16,17
+data GTree a = End End16,17
+data GTree a = End a Double | Cutoff Cutoff16,17
+data GTree a = End a Double | Cutoff a Double | Next Next16,17
+childs childs18,19
+childs childs19,20
+value value22,23
+value value23,24
+instance instance27,28
+headS headS32,33
+headS headS33,34
+minMax minMax36,37
+minMax minMax37,38
+minMaxAB minMaxAB60,61
+minMaxAB minMaxAB61,62
 
 ./src/Search/Informed.hs,542
 module Search.Informed Search.Informed0,1
@@ -415,6 +409,24 @@ primeV primeV61,62
 module Util.Color Util.Color0,1
 hsvToRGB hsvToRGB2,3
 hsvToRGB hsvToRGB3,4
+
+./src/Util/Tuples.hs,358
+module Util.Tuples Util.Tuples3,4
+class First First5,6
+class First First5,6
+  type Fst Fst6,7
+  type NFst NFst7,8
+  first first9,10
+  dropFirst dropFirst10,11
+instance instance12,13
+second second36,37
+second second37,38
+third third39,40
+third third40,41
+fourth fourth42,43
+fourth fourth43,44
+fifth fifth45,46
+fifth fifth46,47
 
 ./src/Util/Queue.hs,493
 module Util.Queue Util.Queue0,1

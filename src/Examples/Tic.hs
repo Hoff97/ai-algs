@@ -6,6 +6,8 @@ import           Data.Array
 
 import           Data.List          (nub)
 
+import           Util.Tuples
+
 data Field = Empty | White | Black deriving Eq
 
 instance Show Field where
