@@ -1,0 +1,4 @@
+* Tasks
+** TODO Do Memoization
+   [2017-10-19 Do]
+   [[file:~/Documents/Programming/Haskell/ai/ai-algs/src/Search/Adversarial.hs][file:~/Documents/Programming/Haskell/ai/ai-algs/src/Search/Adversarial.hs]]

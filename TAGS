@@ -55,6 +55,13 @@ learn learn29,30
 learnMultiple learnMultiple38,39
 learnMultiple learnMultiple39,40
 
+./src/Examples/Memo.hs,99
+module Examples.Memo Examples.Memo0,1
+fib fib4,5
+fib fib5,6
+fib' fib'9,10
+fib' fib'10,11
+
 ./src/Examples/Minst.hs,225
 module Examples.Minst Examples.Minst0,1
 main main11,12
@@ -200,7 +207,7 @@ next next62,63
 
 ./src/Main.hs,37
 module Main Main0,1
-main main5,6
+main main7,8
 
 ./src/Search/Uninformed.hs,275
 module Search.Uninformed Search.Uninformed0,1
@@ -449,6 +456,31 @@ pushAll pushAll27,28
 pushAll pushAll28,29
 popAll popAll33,34
 popAll popAll34,35
+
+./src/Util/Memoize.hs,645
+module Util.Memoize Util.Memoize2,3
+newtype MemoT MemoT8,9
+newtype MemoT a b m c = MemoT MemoT8,9
+type Memo Memo10,11
+type Memo a a10,11
+unMemo unMemo12,13
+unMemo unMemo13,14
+memoize memoize15,16
+memoize memoize16,17
+memoize' memoize'25,26
+memoize' memoize'26,27
+memoizeRec memoizeRec36,37
+memoizeRec memoizeRec37,38
+memoizeRec' memoizeRec'46,47
+memoizeRec' memoizeRec'47,48
+memoizeChange memoizeChange57,58
+memoizeChange memoizeChange58,59
+memoizeChange' memoizeChange'64,65
+memoizeChange' memoizeChange'65,66
+runMemoT runMemoT72,73
+runMemoT runMemoT73,74
+runMemo runMemo75,76
+runMemo runMemo76,77
 
 ./src/Util/Test.hs,242
 module Util.Test Util.Test3,4
