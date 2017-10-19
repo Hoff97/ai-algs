@@ -1,0 +1,467 @@
+
+./Setup.hs,15
+main main1,2
+
+./src/Logic/CSP.hs,473
+module Logic.CSP Logic.CSP2,3
+data CSP CSP11,12
+data CSP i a = CSP CSP11,12
+data CSP i a = CSP { domain domain11,12
+data CSP i a = CSP { domain :: Array i [a], constraints constraints11,12
+data CSP i a = CSP { domain :: Array i [a], constraints :: i -> a -> i -> a -> Bool, neighbours neighbours11,12
+solve solve13,14
+solve solve14,15
+solveCSP solveCSP16,17
+solveCSP solveCSP17,18
+ac3 ac326,27
+ac3 ac327,28
+revise revise34,35
+revise revise35,36
+
+./src/Learning/NeuralNet.hs,495
+module Learning.NeuralNet Learning.NeuralNet5,6
+newtype NN NN12,13
+newtype NN a = NN NN12,13
+newtype Vec Vec14,15
+newtype Vec a = Vec Vec14,15
+size size16,17
+size size17,18
+instance instance19,20
+type Matr Matr27,28
+type Matr a a27,28
+fromVec fromVec29,30
+fromVec fromVec30,31
+toVec toVec32,33
+toVec toVec33,34
+value value45,46
+value value46,47
+values values53,54
+values values54,55
+randomNN randomNN60,61
+randomNN randomNN61,62
+nn nn67,68
+nn nn68,69
+
+./src/Learning/Backpropagation.hs,275
+module Learning.Backpropagation Learning.Backpropagation0,1
+(&!)&!7,8
+(V(8,9
+deltas deltas10,11
+deltas deltas11,12
+deltaW deltaW20,21
+deltaW deltaW21,22
+learn learn28,29
+learn learn29,30
+learnMultiple learnMultiple38,39
+learnMultiple learnMultiple39,40
+
+./src/Examples/Minst.hs,225
+module Examples.Minst Examples.Minst0,1
+main main11,12
+--f --f28,29
+--f' --f'29,30
+f f30,31
+f' f'31,32
+e e33,34
+t t35,36
+distance distance37,38
+distance distance38,39
+forMU forMU42,43
+forMU forMU43,44
+
+./src/Examples/Math.hs,102
+module Examples.Math Examples.Math2,3
+m1 m19,10
+m1 m110,11
+a1 a112,13
+a1 a113,14
+t t15,16
+
+./src/Examples/GridSearch.hs,975
+module Examples.GridSearch Examples.GridSearch0,1
+newtype Grid Grid9,10
+newtype Grid = Grid Grid9,10
+drawGrid drawGrid11,12
+drawGrid drawGrid12,13
+data State State17,18
+data State a = State State17,18
+data State a = State { grid grid17,18
+data State a = State { grid :: Grid, position position17,18
+data State a = State { grid :: Grid, position :: (Int,Int), visited visited17,18
+data State a = State { grid :: Grid, position :: (Int,Int), visited :: Grid, info info17,18
+drawState drawState19,20
+drawState drawState20,21
+traceR traceR24,25
+doLrta doLrta26,27
+doLrta doLrta27,28
+inBounds inBounds34,35
+inBounds inBounds35,36
+t t37,38
+f f38,39
+vis vis40,41
+initState initState42,43
+test test45,46
+drawHeur drawHeur49,50
+drawHeur drawHeur50,51
+fromHSV fromHSV53,54
+fromHSV fromHSV54,55
+toFloat toFloat56,57
+toFloat toFloat57,58
+sizeX sizeX59,60
+sizeY sizeY60,61
+maxD maxD61,62
+maxD maxD62,63
+grid2 grid264,65
+
+./src/Examples/Sudoku.hs,630
+module Examples.Sudoku Examples.Sudoku2,3
+newtype Sudoku Sudoku8,9
+newtype Sudoku = Sudoku Sudoku8,9
+instance instance10,11
+fullCSP fullCSP23,24
+fullCSP fullCSP24,25
+cspFromSudoku cspFromSudoku28,29
+cspFromSudoku cspFromSudoku29,30
+solutionToSudoku solutionToSudoku36,37
+solutionToSudoku solutionToSudoku37,38
+neighbour neighbour39,40
+neighbour neighbour40,41
+constraint constraint43,44
+constraint constraint44,45
+generateRandomList generateRandomList59,60
+generateRandomList generateRandomList60,61
+generateDistinctList generateDistinctList66,67
+generateDistinctList generateDistinctList67,68
+
+./src/Examples/Queens.hs,364
+module Examples.Queens Examples.Queens0,1
+newtype QBoard QBoard5,6
+newtype QBoard = QBoard QBoard5,6
+fitness fitness7,8
+fitness fitness8,9
+instance instance13,14
+update update16,17
+update update17,18
+switch switch21,22
+switch switch22,23
+next next24,25
+next next25,26
+test1 test131,32
+test2 test232,33
+cspN cspN34,35
+cspN cspN35,36
+
+./src/Examples/GameQueens.hs,571
+module Examples.GameQueens Examples.GameQueens0,1
+data QPiece QPiece6,7
+data QPiece = Stone Stone6,7
+data QPiece = Stone | QueenQueen6,7
+data Field Field8,9
+data Field a = Black Black8,9
+data Field a = Black a | White White8,9
+data Field a = Black a | White a | EmptyEmpty8,9
+black black10,11
+black black11,12
+white white14,15
+white white15,16
+empty empty18,19
+empty empty19,20
+data Board Board22,23
+data Board a = Board Board22,23
+instance instance24,25
+type QField QField36,37
+type QBoard QBoard37,38
+end end39,40
+end end40,41
+
+./src/Examples/Tic.hs,500
+module Examples.Tic Examples.Tic0,1
+data Field Field8,9
+data Field = Empty Empty8,9
+data Field = Empty | White White8,9
+data Field = Empty | White | Black Black8,9
+instance instance10,11
+data TicTac TicTac20,21
+data TicTac = Tic Tic20,21
+white white22,23
+white white23,24
+start start40,41
+start start41,42
+rows rows43,44
+rows rows44,45
+place place48,49
+place place49,50
+full full53,54
+full full54,55
+end end56,57
+end end57,58
+next next59,60
+next next60,61
+
+./src/Main.hs,37
+module Main Main0,1
+main main5,6
+
+./src/Search/Uninformed.hs,275
+module Search.Uninformed Search.Uninformed0,1
+data Node Node4,5
+data Node a = Node Node4,5
+data Node a = Node {value value4,5
+data Node a = Node {value :: a, parent parent4,5
+path path6,7
+path path7,8
+bfs bfs10,11
+bfs bfs11,12
+dfs dfs18,19
+dfs dfs19,20
+
+./src/Search/Online.hs,70
+module Search.Online Search.Online0,1
+lrta lrta6,7
+lrta lrta7,8
+
+./src/Search/Adversarial.hs,716
+module Search.Adversarial Search.Adversarial2,3
+class Heuristic Heuristic9,10
+class Heuristic Heuristic9,10
+  heuristic heuristic10,11
+  inverted inverted11,12
+  inverted inverted12,13
+data GTree GTree14,15
+data GTree a = End End14,15
+data GTree a = End a Double | Cutoff Cutoff14,15
+data GTree a = End a Double | Cutoff a Double | Next Next14,15
+childs childs16,17
+childs childs17,18
+value value20,21
+value value21,22
+instance instance25,26
+headS headS30,31
+headS headS31,32
+minMax minMax34,35
+minMax minMax35,36
+minMax' minMax'45,46
+minMax' minMax'46,47
+first first61,62
+first first62,63
+second second64,65
+second second65,66
+third third67,68
+third third68,69
+
+./src/Search/Informed.hs,542
+module Search.Informed Search.Informed0,1
+data Node Node5,6
+data Node h a = Node Node5,6
+data Node h a = Node { value value5,6
+data Node h a = Node { value :: a, parent parent5,6
+data Node h a = Node { value :: a, parent :: Maybe (Node h a), heur heur5,6
+instance instance7,8
+insertAll insertAll13,14
+insertAll insertAll14,15
+path path16,17
+path path17,18
+bfs bfs20,21
+bfs bfs21,22
+newtype AHeur AHeur28,29
+newtype AHeur = AHeur AHeur28,29
+fstH fstH36,37
+sumH sumH37,38
+aStar aStar39,40
+aStar aStar40,41
+
+./src/Search/Queue.hs,325
+module Search.Queue Search.Queue0,1
+class Queue Queue2,3
+class Queue Queue2,3
+  nil nil3,4
+  empty empty4,5
+  pop pop5,6
+  insert insert6,7
+singleton singleton8,9
+singleton singleton9,10
+instance instance11,12
+data Fifo Fifo19,20
+data Fifo a = Fifo Fifo19,20
+append append30,31
+append append31,32
+
+./src/Search/Continuous.hs,151
+module Search.Continuous Search.Continuous2,3
+hillClimb hillClimb7,8
+hillClimb hillClimb8,9
+e e12,13
+simAnn simAnn15,16
+simAnn simAnn16,17
+
+./src/Graphic/LearnLoad.hs,255
+module Graphic.LearnLoad Graphic.LearnLoad2,3
+toInput toInput9,10
+toInput toInput10,11
+indexOutput indexOutput16,17
+indexOutput indexOutput17,18
+loadIndex loadIndex19,20
+loadIndex loadIndex20,21
+extract extract26,27
+extract extract27,28
+
+./src/Graphic/Categorize.hs,50
+module Graphic.Categorize Graphic.Categorize3,4
+
+./src/Graphic/Normalize.hs,117
+module Graphic.Normalize Graphic.Normalize0,1
+normalizeAll normalizeAll6,7
+test test22,23
+rImage rImage24,25
+
+./src/Graphic/Image.hs,1131
+module Graphic.Image Graphic.Image0,1
+interpolate interpolate8,9
+interpolate interpolate9,10
+data PixelFloat PixelFloat13,14
+data PixelFloat = PF PF13,14
+instance instance15,16
+toFloats toFloats27,28
+toFloats toFloats28,29
+fromFloats fromFloats30,31
+floatAt floatAt37,38
+scale scale39,40
+scale scale40,41
+cut cut46,47
+cut cut47,48
+contrast contrast53,54
+contrast contrast54,55
+brightness brightness60,61
+brightness brightness61,62
+grayscale grayscale68,69
+grayscale grayscale69,70
+minMaxBrightness minMaxBrightness76,77
+minMaxBrightness minMaxBrightness77,78
+fullScale fullScale86,87
+fullScale fullScale87,88
+blackWhite blackWhite95,96
+blackWhite blackWhite96,97
+boundsFor boundsFor103,104
+boundsFor boundsFor104,105
+boundsSum boundsSum113,114
+boundsSum boundsSum114,115
+countPixels countPixels121,122
+countPixels countPixels122,123
+findWithPadding findWithPadding129,130
+findWithPadding findWithPadding130,131
+findAllWithPadding findAllWithPadding148,149
+findAllWithPadding findAllWithPadding149,150
+normalize normalize159,160
+normalize normalize160,161
+
+./src/Minst/Data.hs,163
+module Minst.Data Minst.Data0,1
+readLabels readLabels7,8
+readLabels readLabels8,9
+map' map'13,14
+readImages readImages15,16
+readImages readImages16,17
+
+./src/Math/LGS.hs,130
+module Math.LGS Math.LGS0,1
+solveLGS solveLGS5,6
+solveLGS solveLGS6,7
+solveLGSI solveLGSI11,12
+solveLGSI solveLGSI12,13
+
+./src/Math/Matrix.hs,568
+module Math.Matrix Math.Matrix2,3
+newtype Matrix Matrix7,8
+newtype Matrix i a = Matrix Matrix7,8
+rows rows9,10
+rows rows10,11
+matrix matrix12,13
+matrix matrix13,14
+fromList fromList15,16
+fromList fromList16,17
+arr arr18,19
+arr arr19,20
+dim dim21,22
+dim dim22,23
+(&)&24,25
+a a25,26
+instance instance27,28
+(&^)&^42,43
+minor minor46,47
+minor minor47,48
+det det50,51
+det det51,52
+replaceCol replaceCol56,57
+replaceCol replaceCol57,58
+randomMatr randomMatr59,60
+randomMatr randomMatr60,61
+matr matr62,63
+matr matr63,64
+
+./src/Math/Galois.hs,272
+module Math.Galois Math.Galois3,4
+type GT GT9,10
+gt gt10,11
+gt gt11,12
+newtype GFs GFs13,14
+newtype GFs (a :: Nat) b = GFs GFs13,14
+newtype ProxGF ProxGF15,16
+newtype ProxGF b a = P P15,16
+instance instance17,18
+primeV primeV60,61
+primeV primeV61,62
+
+./src/Util/Color.hs,80
+module Util.Color Util.Color0,1
+hsvToRGB hsvToRGB2,3
+hsvToRGB hsvToRGB3,4
+
+./src/Util/Queue.hs,493
+module Util.Queue Util.Queue0,1
+data Queue Queue2,3
+data Queue a = Queue Queue2,3
+data Queue a = Queue { front front2,3
+data Queue a = Queue { front :: [a], back back2,3
+instance instance4,5
+emptyQ emptyQ7,8
+emptyQ emptyQ8,9
+singleQ singleQ10,11
+singleQ singleQ11,12
+listQueue listQueue13,14
+listQueue listQueue14,15
+push push16,17
+push push17,18
+pop pop21,22
+pop pop22,23
+pushAll pushAll27,28
+pushAll pushAll28,29
+popAll popAll33,34
+popAll popAll34,35
+
+./src/Util/Test.hs,242
+module Util.Test Util.Test3,4
+randList randList13,14
+randList randList14,15
+test test20,21
+test test21,22
+sort sort23,24
+sort sort24,25
+mergeSort mergeSort30,31
+mergeSort mergeSort31,32
+merge merge46,47
+merge merge47,48
+
+./src/.stack-work/intero/intero2933gWg-TEMP.hs,0
+
+./src/.stack-work/intero/intero2933TMa-STAGING.hs,194
+module Main Main2,3
+main main13,14
+--f --f30,31
+--f' --f'31,32
+f f32,33
+f' f'33,34
+e e35,36
+distance distance37,38
+distance distance38,39
+forMU forMU42,43
+forMU forMU43,44
