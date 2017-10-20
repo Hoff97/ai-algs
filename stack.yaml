@@ -7,4 +7,4 @@ extra-deps:
 - wxc-0.92.3.0
 - wxcore-0.92.3.0
 - wxdirect-0.92.3.0
-resolver: lts-8.12
+resolver: lts-9.9
