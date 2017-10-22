@@ -9,6 +9,7 @@ import Util.Tuples
 import Debug.Trace
 import Util.Memoize
 import Data.Foldable (foldrM)
+import Data.Hashable
 
 
 class Heuristic a where
@@ -87,7 +88,7 @@ minMaxAB n@(Cutoff v h) d s end m alpha beta
 
 
 
-minMaxAB' :: (Heuristic a, Ord a) => (a -> [a]) -> (a -> Bool) -> (GTree a,Int,Bool,Double,Double) -> Memo a (GTree a) (GTree a)
+minMaxAB' :: (Heuristic a, Hashable a, Eq a) => (a -> [a]) -> (a -> Bool) -> (GTree a,Int,Bool,Double,Double) -> Memo a (GTree a) (GTree a)
 minMaxAB' succ end t = memoizeChange' trans h t
   where
     trans = value . first
@@ -119,4 +120,3 @@ minMaxAB' succ end t = memoizeChange' trans h t
       let sorted = sortBy (comparing comp) (first s)
       let numChilds = sum . map childs . first $ s
       return $ Next v numChilds (heuristic . head $ sorted) sorted
-
