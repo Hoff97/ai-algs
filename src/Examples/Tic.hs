@@ -8,7 +8,7 @@ import           Data.List          (nub)
 
 import           Util.Tuples
 
-data Field = Empty | White | Black deriving Eq
+data Field = Empty | White | Black deriving (Eq,Ord)
 
 instance Show Field where
   show Empty = " "
@@ -20,7 +20,7 @@ instance Heuristic Field where
   heuristic White = 1
   heuristic Black = -1
 
-data TicTac = Tic (Array (Int,Int) Field) Bool deriving Eq
+data TicTac = Tic (Array (Int,Int) Field) Bool deriving (Eq,Ord)
 
 white :: TicTac -> Bool
 white (Tic _ b) = b
