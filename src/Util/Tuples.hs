@@ -34,6 +34,18 @@ instance First (a,b,c,d,e) where
   first (a,_,_,_,_) = a
   dropFirst (_,b,c,d,e) = (b,c,d,e)
 
+instance First (a,b,c,d,e,f) where
+  type Fst (a,b,c,d,e,f) = a
+  type NFst (a,b,c,d,e,f) = (b,c,d,e,f)
+  first (a,_,_,_,_,_) = a
+  dropFirst (_,b,c,d,e,f) = (b,c,d,e,f)
+
+instance First (a,b,c,d,e,f,g) where
+  type Fst (a,b,c,d,e,f,g) = a
+  type NFst (a,b,c,d,e,f,g) = (b,c,d,e,f,g)
+  first (a,_,_,_,_,_,_) = a
+  dropFirst (_,b,c,d,e,f,g) = (b,c,d,e,f,g)
+
 second :: (First a, First (NFst a)) => a -> Fst (NFst a)
 second = first . dropFirst
 
@@ -45,3 +57,14 @@ fourth = first . dropFirst . dropFirst . dropFirst
 
 fifth :: (First a, First (NFst a), First (NFst (NFst a)), First (NFst (NFst (NFst a))), First (NFst (NFst (NFst (NFst a))))) => a -> Fst (NFst (NFst (NFst (NFst a))))
 fifth = first . dropFirst . dropFirst . dropFirst . dropFirst
+
+sixt :: (First a, First (NFst a), First (NFst (NFst a)),
+        First (NFst (NFst (NFst a))), First (NFst (NFst (NFst (NFst a)))),
+        First (NFst (NFst (NFst (NFst (NFst a)))))) => a -> Fst (NFst (NFst (NFst (NFst (NFst a)))))
+sixt = first . dropFirst . dropFirst . dropFirst . dropFirst . dropFirst
+
+seventh :: (First a, First (NFst a), First (NFst (NFst a)),
+        First (NFst (NFst (NFst a))), First (NFst (NFst (NFst (NFst a)))),
+        First (NFst (NFst (NFst (NFst (NFst a))))),
+        First (NFst (NFst (NFst (NFst (NFst (NFst a))))))) => a -> Fst (NFst (NFst (NFst (NFst (NFst (NFst a))))))
+seventh = first . dropFirst . dropFirst . dropFirst . dropFirst . dropFirst . dropFirst
