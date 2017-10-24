@@ -7,6 +7,9 @@ import           Data.Ord  (comparing)
 import Data.Maybe (fromMaybe)
 import Util.Tuples
 import Debug.Trace
+import Util.Memoize
+import Data.Foldable (foldrM)
+import Data.Hashable
 
 
 class Heuristic a where
@@ -84,3 +87,36 @@ minMaxAB n@(Cutoff v h) d s end m alpha beta
                                 in (res:ls,n - 1, d-childs res-1, if m then max a (heuristic res) else a,if not m then min b (heuristic res) else b)
 
 
+
+minMaxAB' :: (Heuristic a, Hashable a, Eq a) => (a -> [a]) -> (a -> Bool) -> (GTree a,Int,Bool,Double,Double) -> Memo a (GTree a) (GTree a)
+minMaxAB' succ end t = memoizeChange' trans h t
+  where
+    trans = value . first
+    h (n,d,m,alpha,beta) (Just x) = h (n,d,m,alpha,beta) Nothing
+    h (n@(End _ _),d,m,alpha,beta) Nothing = return n
+    h (n@(Cutoff v h),d,m,alpha,beta) Nothing
+      | d <= 0 = return n
+      | alpha > beta = return n
+      | end v = return $ End v h
+      | otherwise = do
+          let children = succ v
+          let walk child (ls,n,d,a,b) = do
+                res <- minMaxAB' succ end (Cutoff child 0,d `div` n,not m, a, b)
+                return (res:ls,n - 1, d - childs res - 1, if m then max a (heuristic res) else a,if not m then min b (heuristic res) else b)
+          s <- foldrM walk ([], length children,d-1,alpha,beta) children
+          let numChilds = sum . map childs . first $ s
+          let comp = if m then heuristic else negate .  heuristic
+          let sorted = sortBy (comparing comp) (first s)
+          return $ Next v numChilds (heuristic . head $ sorted) sorted
+    h (n@(Next v c h succs),d,m,alpha,beta) Nothing
+      | d <= 0 = return n
+      | alpha > beta = return n
+      | otherwise = do
+      let comp = if m then heuristic else negate . heuristic
+      let walk child (ls,n,d, a, b) = do
+            res <- minMaxAB' succ end (child,d `div` n,not m, a, b)
+            return (res:ls,n - 1, d-childs res+childs child,if m then max a (heuristic res) else a,if not m then min b (heuristic res) else b)
+      s <- foldrM walk ([],length succs,d,alpha,beta) succs
+      let sorted = sortBy (comparing comp) (first s)
+      let numChilds = sum . map childs . first $ s
+      return $ Next v numChilds (heuristic . head $ sorted) sorted

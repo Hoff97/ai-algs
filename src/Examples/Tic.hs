@@ -1,14 +1,17 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 module Examples.Tic where
 
-import           Search.Adversarial
-
 import           Data.Array
-
+import           Data.Hashable
 import           Data.List          (nub)
-
+import           GHC.Generics       (Generic)
+import           Search.Adversarial
 import           Util.Tuples
 
-data Field = Empty | White | Black deriving Eq
+data Field = Empty | White | Black deriving (Eq,Ord, Generic)
+
+instance Hashable Field
 
 instance Show Field where
   show Empty = " "
@@ -20,7 +23,10 @@ instance Heuristic Field where
   heuristic White = 1
   heuristic Black = -1
 
-data TicTac = Tic (Array (Int,Int) Field) Bool deriving Eq
+data TicTac = Tic (Array (Int,Int) Field) Bool deriving (Eq,Ord, Generic)
+
+instance Hashable TicTac where
+  hashWithSalt salt (Tic a b) = hashWithSalt salt (elems a,b)
 
 white :: TicTac -> Bool
 white (Tic _ b) = b

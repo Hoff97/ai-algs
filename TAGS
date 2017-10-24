@@ -55,12 +55,12 @@ learn learn29,30
 learnMultiple learnMultiple38,39
 learnMultiple learnMultiple39,40
 
-./src/Examples/Memo.hs,99
+./src/Examples/Memo.hs,100
 module Examples.Memo Examples.Memo0,1
-fib fib4,5
 fib fib5,6
-fib' fib'9,10
+fib fib6,7
 fib' fib'10,11
+fib' fib'11,12
 
 ./src/Examples/Minst.hs,225
 module Examples.Minst Examples.Minst0,1
@@ -182,28 +182,28 @@ end end39,40
 end end40,41
 
 ./src/Examples/Tic.hs,508
-module Examples.Tic Examples.Tic0,1
-data Field Field10,11
-data Field = Empty Empty10,11
-data Field = Empty | White White10,11
-data Field = Empty | White | Black Black10,11
-instance instance12,13
-data TicTac TicTac22,23
-data TicTac = Tic Tic22,23
-white white24,25
-white white25,26
-start start42,43
-start start43,44
-rows rows45,46
-rows rows46,47
-place place50,51
-place place51,52
-full full55,56
-full full56,57
-end end58,59
-end end59,60
-next next61,62
-next next62,63
+module Examples.Tic Examples.Tic2,3
+data Field Field11,12
+data Field = Empty Empty11,12
+data Field = Empty | White White11,12
+data Field = Empty | White | Black Black11,12
+instance instance15,16
+data TicTac TicTac25,26
+data TicTac = Tic Tic25,26
+white white30,31
+white white31,32
+start start48,49
+start start49,50
+rows rows51,52
+rows rows52,53
+place place56,57
+place place57,58
+full full61,62
+full full62,63
+end end64,65
+end end65,66
+next next67,68
+next next68,69
 
 ./src/Main.hs,37
 module Main Main0,1
@@ -227,28 +227,30 @@ module Search.Online Search.Online0,1
 lrta lrta6,7
 lrta lrta7,8
 
-./src/Search/Adversarial.hs,604
+./src/Search/Adversarial.hs,658
 module Search.Adversarial Search.Adversarial2,3
-class Heuristic Heuristic11,12
-class Heuristic Heuristic11,12
-  heuristic heuristic12,13
-  inverted inverted13,14
-  inverted inverted14,15
-data GTree GTree16,17
-data GTree a = End End16,17
-data GTree a = End a Double | Cutoff Cutoff16,17
-data GTree a = End a Double | Cutoff a Double | Next Next16,17
-childs childs18,19
-childs childs19,20
-value value22,23
-value value23,24
-instance instance27,28
-headS headS32,33
-headS headS33,34
-minMax minMax36,37
-minMax minMax37,38
-minMaxAB minMaxAB60,61
-minMaxAB minMaxAB61,62
+class Heuristic Heuristic14,15
+class Heuristic Heuristic14,15
+  heuristic heuristic15,16
+  inverted inverted16,17
+  inverted inverted17,18
+data GTree GTree19,20
+data GTree a = End End19,20
+data GTree a = End a Double | Cutoff Cutoff19,20
+data GTree a = End a Double | Cutoff a Double | Next Next19,20
+childs childs21,22
+childs childs22,23
+value value25,26
+value value26,27
+instance instance30,31
+headS headS35,36
+headS headS36,37
+minMax minMax39,40
+minMax minMax40,41
+minMaxAB minMaxAB63,64
+minMaxAB minMaxAB64,65
+minMaxAB' minMaxAB'90,91
+minMaxAB' minMaxAB'91,92
 
 ./src/Search/Informed.hs,542
 module Search.Informed Search.Informed0,1
@@ -457,30 +459,30 @@ pushAll pushAll28,29
 popAll popAll33,34
 popAll popAll34,35
 
-./src/Util/Memoize.hs,645
+./src/Util/Memoize.hs,649
 module Util.Memoize Util.Memoize2,3
-newtype MemoT MemoT8,9
-newtype MemoT a b m c = MemoT MemoT8,9
-type Memo Memo10,11
-type Memo a a10,11
-unMemo unMemo12,13
-unMemo unMemo13,14
-memoize memoize15,16
-memoize memoize16,17
-memoize' memoize'25,26
-memoize' memoize'26,27
-memoizeRec memoizeRec36,37
-memoizeRec memoizeRec37,38
-memoizeRec' memoizeRec'46,47
-memoizeRec' memoizeRec'47,48
-memoizeChange memoizeChange57,58
-memoizeChange memoizeChange58,59
-memoizeChange' memoizeChange'64,65
-memoizeChange' memoizeChange'65,66
-runMemoT runMemoT72,73
-runMemoT runMemoT73,74
-runMemo runMemo75,76
-runMemo runMemo76,77
+newtype MemoT MemoT11,12
+newtype MemoT a b m c = MemoT MemoT11,12
+type Memo Memo13,14
+type Memo a a13,14
+unMemo unMemo15,16
+unMemo unMemo16,17
+memoize memoize18,19
+memoize memoize19,20
+memoize' memoize'28,29
+memoize' memoize'29,30
+memoizeRec memoizeRec39,40
+memoizeRec memoizeRec40,41
+memoizeRec' memoizeRec'49,50
+memoizeRec' memoizeRec'50,51
+memoizeChange memoizeChange60,61
+memoizeChange memoizeChange61,62
+memoizeChange' memoizeChange'67,68
+memoizeChange' memoizeChange'68,69
+runMemoT runMemoT77,78
+runMemoT runMemoT78,79
+runMemo runMemo80,81
+runMemo runMemo81,82
 
 ./src/Util/Test.hs,242
 module Util.Test Util.Test3,4
