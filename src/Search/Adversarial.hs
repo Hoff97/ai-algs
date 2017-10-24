@@ -1,6 +1,7 @@
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE BangPatterns #-}
 
 module Search.Adversarial where
 
@@ -12,7 +13,7 @@ import Debug.Trace
 import Util.Memoize
 
 
-import Data.Foldable (foldrM)
+import Data.Foldable (foldrM,foldlM)
 import Data.Hashable
 import Data.PQueue.Prio.Max as PQ
 
@@ -45,6 +46,11 @@ done :: GTreeT f a -> Bool
 done (End _ _) = True
 done (Cutoff _ _) = False
 done (Next _ _ _ d _) = d
+
+move :: GTree a -> a
+move (End a _) = a
+move (Cutoff a _) = a
+move (Next _ _ _ _ (x:xs)) = value x
 
 instance Heuristic a => Heuristic (GTreeT f a) where
   heuristic (End _ h)      = h
@@ -116,17 +122,17 @@ minMaxAB' succ end t = memoizeChange' trans h t
     h (n,d,m,alpha,beta) (Just x) = h (x,d,m,alpha,beta) Nothing
     h (n@(End _ _),d,m,alpha,beta) Nothing = return n
     h (n@(Cutoff v h),d,m,alpha,beta) Nothing
-      | d <= 0 = return $ Cutoff v h
-      | alpha > beta = return $ Cutoff v h
-      | end v = return $ End v h
+      | d <= 0 = return $ Cutoff v (heuristic v)
+      | alpha > beta = return $ Cutoff v (heuristic v)
+      | end v = return $ End v (heuristic v)
       | otherwise = do
           let children = succ v
           let walk child (ls,n,d,a,b) = do
                 res <- minMaxAB' succ end (Cutoff child 0,d `div` n,not m, a, b)
                 return (res:ls,n - 1, d - childs res - 1, if m then max a (heuristic res) else a,if not m then min b (heuristic res) else b)
-          s <- foldrM walk ([], length children,d-1,alpha,beta) children
+          s <- foldlM (flip walk) ([], length children,d-1,alpha,beta) children
           let numChilds = sum . fmap childs . first $ s
-          let comp = if m then heuristic else negate .  heuristic
+          let comp = if m then negate . heuristic else heuristic
           let sorted = sortBy (comparing comp) (first s)
           let done' = all done . first $ s
           return $ Next v numChilds (heuristic . head $ sorted) done' sorted
@@ -135,11 +141,11 @@ minMaxAB' succ end t = memoizeChange' trans h t
       | alpha > beta = return n
       | d' = return n
       | otherwise = do
-      let comp = if m then heuristic else negate . heuristic
+      let comp = if m then negate . heuristic else heuristic
       let walk child (ls,n,d, a, b) = do
             res <- minMaxAB' succ end (child,d `div` n,not m, a, b)
             return (res:ls,n - 1, d-childs res+childs child,if m then max a (heuristic res) else a,if not m then min b (heuristic res) else b)
-      s <- foldrM walk ([],length succs,d,alpha,beta) succs
+      s <- foldlM (flip walk) ([],length succs,d,alpha,beta) succs
       let sorted = sortBy (comparing comp) (first s)
       let numChilds = sum . fmap childs . first $ s
       let done' = all done . first $ s
@@ -156,16 +162,16 @@ minMaxABPrio succ end t = memoizeChange' trans h t
     h (n,d,m,alpha,beta) (Just x) = h (x,d,m,alpha,beta) Nothing
     h (n@(End _ _),d,m,alpha,beta) Nothing = return n
     h (n@(Cutoff v h),d,m,alpha,beta) Nothing
-      | d <= 0 = return $ Cutoff v h
-      | alpha > beta = return $ Cutoff v h
-      | end v = return $ End v h
+      | d <= 0 = return $ Cutoff v (heuristic v)
+      | alpha > beta = return $ Cutoff v (heuristic v)
+      | end v = return $ End v (heuristic v)
       | otherwise = do
           let children = succ v
           let heur' = if m then heuristic else inverted
           let walk child (ls,n,d,a,b,dn,chs) = do
                 res <- minMaxABPrio succ end (Cutoff child 0,d `div` n,not m, a, b)
                 return (PQ.insert (heur' res) res ls,n - 1, d - childs res - 1, if m then max a (heuristic res) else a,if not m then min b (heuristic res) else b,dn&&done res,chs+childs res)
-          (els,n,d,a,b,dn,chs) <- foldrM walk (PQ.empty, length children,d-1,alpha,beta,True,0) children
+          (els,n,d,a,b,dn,chs) <- foldlM (flip walk) (PQ.empty, length children,d-1,alpha,beta,True,0) children
           return $ Next v chs (first . findMax $ els) dn els
     h (n@(Next v c h d' succs),d,m,alpha,beta) Nothing
       | d <= 0 = return n
@@ -183,5 +189,12 @@ foldrM' :: Monad m => (a -> b -> m b) -> b -> (MaxPQueue Double a) -> m b
 foldrM' f b ls = foldrWithKey app (return b) ls
   where
     app _ a mb = do
-      b <- mb
+      !b <- mb
       f a b
+
+foldlM' :: Monad m => (b -> a -> m b) -> b -> (MaxPQueue Double a) -> m b
+foldlM' f b ls = foldlWithKey app (return b) ls
+  where
+    app mb _ a = do
+      !b <- mb
+      f b a

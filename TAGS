@@ -181,7 +181,7 @@ type QBoard QBoard37,38
 end end39,40
 end end40,41
 
-./src/Examples/Tic.hs,508
+./src/Examples/Tic.hs,554
 module Examples.Tic Examples.Tic2,3
 data Field Field11,12
 data Field = Empty Empty11,12
@@ -194,16 +194,18 @@ white white30,31
 white white31,32
 start start48,49
 start start49,50
-rows rows51,52
-rows rows52,53
-place place56,57
-place place57,58
-full full61,62
-full full62,63
-end end64,65
-end end65,66
-next next67,68
-next next68,69
+winning winning51,52
+winning winning52,53
+rows rows54,55
+rows rows55,56
+place place59,60
+place place60,61
+full full64,65
+full full65,66
+end end67,68
+end end68,69
+next next70,71
+next next71,72
 
 ./src/Main.hs,86
 module Main Main0,1
@@ -230,40 +232,44 @@ module Search.Online Search.Online0,1
 lrta lrta6,7
 lrta lrta7,8
 
-./src/Search/Adversarial.hs,922
-module Search.Adversarial Search.Adversarial4,5
-class Heuristic Heuristic19,20
-class Heuristic Heuristic19,20
-  heuristic heuristic20,21
-  inverted inverted21,22
+./src/Search/Adversarial.hs,1006
+module Search.Adversarial Search.Adversarial5,6
+class Heuristic Heuristic20,21
+class Heuristic Heuristic20,21
+  heuristic heuristic21,22
   inverted inverted22,23
-data GTreeT GTreeT24,25
-data GTreeT f a = End End24,25
-data GTreeT f a = End a Double | Cutoff Cutoff24,25
-data GTreeT f a = End a Double | Cutoff a Double | Next Next24,25
-type GTree GTree25,26
-type GTree a a25,26
-instance instance27,28
---data --data32,33
-childs childs34,35
+  inverted inverted23,24
+data GTreeT GTreeT25,26
+data GTreeT f a = End End25,26
+data GTreeT f a = End a Double | Cutoff Cutoff25,26
+data GTreeT f a = End a Double | Cutoff a Double | Next Next25,26
+type GTree GTree26,27
+type GTree a a26,27
+instance instance28,29
+--data --data33,34
 childs childs35,36
-value value38,39
+childs childs36,37
 value value39,40
-done done43,44
+value value40,41
 done done44,45
-headS headS53,54
-headS headS54,55
-minMax minMax57,58
-minMax minMax58,59
-minMaxAB minMaxAB83,84
-minMaxAB minMaxAB84,85
-minMaxAB' minMaxAB'111,112
-minMaxAB' minMaxAB'112,113
-type GTreeP GTreeP149,150
-minMaxABPrio minMaxABPrio151,152
-minMaxABPrio minMaxABPrio152,153
-foldrM' foldrM'181,182
-foldrM' foldrM'182,183
+done done45,46
+move move49,50
+move move50,51
+headS headS59,60
+headS headS60,61
+minMax minMax63,64
+minMax minMax64,65
+minMaxAB minMaxAB89,90
+minMaxAB minMaxAB90,91
+minMaxAB' minMaxAB'117,118
+minMaxAB' minMaxAB'118,119
+type GTreeP GTreeP155,156
+minMaxABPrio minMaxABPrio157,158
+minMaxABPrio minMaxABPrio158,159
+foldrM' foldrM'187,188
+foldrM' foldrM'188,189
+foldlM' foldlM'194,195
+foldlM' foldlM'195,196
 
 ./src/Search/Informed.hs,542
 module Search.Informed Search.Informed0,1

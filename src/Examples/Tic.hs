@@ -49,6 +49,9 @@ instance Heuristic TicTac where
 start :: TicTac
 start = Tic (listArray ((0,0),(2,2)) $ replicate 9 Empty) True
 
+winning :: TicTac
+winning = Tic (listArray ((0,0),(2,2)) $ [White,White,Empty,Black,Empty,Black,Empty,Empty,Empty]) True
+
 rows :: TicTac -> [[Field]]
 rows (Tic a _) = [[a!(0,0),a!(0,1),a!(0,2)], [a!(1,0),a!(1,1),a!(1,2)], [a!(2,0),a!(2,1),a!(2,2)],
                [a!(0,0),a!(1,0),a!(2,0)],[a!(0,1),a!(1,1),a!(2,1)],[a!(0,2),a!(1,2),a!(2,2)],
