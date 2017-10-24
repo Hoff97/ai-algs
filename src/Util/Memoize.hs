@@ -4,8 +4,8 @@
 {-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE MultiParamTypeClasses      #-}
+{-# LANGUAGE TypeApplications           #-}
 {-# LANGUAGE TypeFamilies               #-}
-{-# LANGUAGE TypeApplications #-}
 
 
 module Util.Memoize where
@@ -91,7 +91,7 @@ runMemo = runIdentity . runMemoT
 
 
 --newtype Mem a = Mem { unMem :: a }
-newtype Res a = Res { unRes :: a }
+{-newtype Res a = Res { unRes :: a }
 
 data Nat = Z | S Nat | N
 
@@ -116,4 +116,4 @@ instance Ord a => Memoize Z a (Res b) where
 
 instance Memoize N a b => Memoize N c (a -> b) where
   type Result N c (a -> b) = a -> Result N a b
-  memo f c = (memo @N) (f c)
+  memo f c = (memo @N) (f c)-}
