@@ -1,4 +1,12 @@
+{-# LANGUAGE AllowAmbiguousTypes        #-}
+{-# LANGUAGE DataKinds                  #-}
+{-# LANGUAGE FlexibleContexts           #-}
+{-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE MultiParamTypeClasses      #-}
+{-# LANGUAGE TypeFamilies               #-}
+{-# LANGUAGE TypeApplications #-}
+
 
 module Util.Memoize where
 
@@ -75,3 +83,32 @@ runMemoT (MemoT t) = fst <$> runStateT t empty
 
 runMemo :: MemoT a b Identity c -> c
 runMemo = runIdentity . runMemoT
+
+
+--newtype Mem a = Mem { unMem :: a }
+newtype Res a = Res { unRes :: a }
+
+data Nat = Z | S Nat | N
+
+class Memoize (s :: Nat) a b where
+  type Result s a b
+  memo :: (a -> b) -> a -> Result s a b
+
+instance Memoize N a (Res b) where
+  type Result N a (Res b) = b
+  memo f = unRes . f
+
+instance Ord a => Memoize Z a (Res b) where
+  type Result Z a (Res b) = Memo a b b
+  memo f a = MemoT $ do
+    m <- get
+    case M.lookup a m of
+      Just res -> return res
+      Nothing -> do
+        let res = unRes $ f a
+        modify (M.insert a res)
+        return res
+
+instance Memoize N a b => Memoize N c (a -> b) where
+  type Result N c (a -> b) = a -> Result N a b
+  memo f c = (memo @N) (f c)
