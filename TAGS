@@ -207,10 +207,10 @@ next next68,69
 
 ./src/Main.hs,86
 module Main Main0,1
+main main10,11
 memo memo15,16
 prio prio17,18
 ab ab19,20
-main main21,22
 
 ./src/Search/Uninformed.hs,275
 module Search.Uninformed Search.Uninformed0,1
