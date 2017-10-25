@@ -23,12 +23,15 @@ class Heuristic a where
   inverted :: a -> Double
   inverted = negate . heuristic
 
+instance Heuristic a => Heuristic [a] where
+  heuristic = sum . Prelude.map heuristic
+
 data GTreeT f a = End a Double | Cutoff a Double | Next a Int Double Bool (f (GTreeT f a))
 type GTree a = GTreeT [] a
 
 instance (Show a, Show (f (GTreeT f a))) => Show (GTreeT f a) where
   show (End a _) = "End " ++ show a
-  show (Cutoff a _) = "Cutoff " ++ show a
+  show (Cutoff a h) = "Cutoff " ++ show h ++ ":" ++ show a
   show (Next a _ _ _ f) = "Next (" ++ show a ++ ") (" ++ show f ++ ")"
 
 --data GTree a = End a Double | Cutoff a Double | Next a Int Double Bool [GTree a] deriving (Show, Eq, Functor)
@@ -47,10 +50,10 @@ done (End _ _) = True
 done (Cutoff _ _) = False
 done (Next _ _ _ d _) = d
 
-move :: GTree a -> a
+move :: GTreeP a -> a
 move (End a _) = a
 move (Cutoff a _) = a
-move (Next _ _ _ _ (x:xs)) = value x
+move (Next _ _ _ _ ls) = value . snd . findMax $ ls
 
 instance Heuristic a => Heuristic (GTreeT f a) where
   heuristic (End _ h)      = h
@@ -172,7 +175,7 @@ minMaxABPrio succ end t = memoizeChange' trans h t
                 res <- minMaxABPrio succ end (Cutoff child 0,d `div` n,not m, a, b)
                 return (PQ.insert (heur' res) res ls,n - 1, d - childs res - 1, if m then max a (heuristic res) else a,if not m then min b (heuristic res) else b,dn&&done res,chs+childs res)
           (els,n,d,a,b,dn,chs) <- foldlM (flip walk) (PQ.empty, length children,d-1,alpha,beta,True,0) children
-          return $ Next v chs (first . findMax $ els) dn els
+          return $ Next v chs (heuristic . snd . findMax $ els) dn els
     h (n@(Next v c h d' succs),d,m,alpha,beta) Nothing
       | d <= 0 = return n
       | alpha > beta = return n
@@ -183,7 +186,7 @@ minMaxABPrio succ end t = memoizeChange' trans h t
             res <- minMaxABPrio succ end (child,d `div` n,not m, a, b)
             return (PQ.insert (heur' res) res ls,n - 1, d-childs res+childs child,if m then max a (heuristic res) else a,if not m then min b (heuristic res) else b, dn&&done res,chs+childs res)
       (els,n,d,a,b,dn,chs) <- foldrM' walk (PQ.empty,length succs,d,alpha,beta,True,0) succs
-      return $ Next v chs (first . findMax $ els) dn els
+      return $ Next v chs (heuristic . snd . findMax $ els) dn els
 
 foldrM' :: Monad m => (a -> b -> m b) -> b -> (MaxPQueue Double a) -> m b
 foldrM' f b ls = foldrWithKey app (return b) ls

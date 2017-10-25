@@ -4,13 +4,12 @@ import           Criterion
 import           Criterion.Main
 import           Data.Time
 import           Examples.Memo
-import           Examples.Tic
+import           Examples.Four
 import           Search.Adversarial
 import           Util.Memoize
 
-main = do
-  print . childs . runMemo $ minMaxABPrio next end (Cutoff start 0,125000,True,-10000,10000)
-{-print . childs . runMemo $ minMaxABPrio next end (Cutoff start 0,1000000,True,-10000,10000)-}
+main = playAgainst 100000 start False True
+--  print . childs . runMemo $ minMaxAB' next end (Cutoff start 0,10000000,True,-10000,10000)
 
 
 memo m n = childs . runMemo $ minMaxAB' next end (Cutoff start 0,m+n-n,True,-10000,10000)
