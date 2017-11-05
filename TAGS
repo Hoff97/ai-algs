@@ -158,28 +158,69 @@ test2 test232,33
 cspN cspN34,35
 cspN cspN35,36
 
-./src/Examples/GameQueens.hs,571
-module Examples.GameQueens Examples.GameQueens0,1
-data QPiece QPiece6,7
-data QPiece = Stone Stone6,7
-data QPiece = Stone | QueenQueen6,7
-data Field Field8,9
-data Field a = Black Black8,9
-data Field a = Black a | White White8,9
-data Field a = Black a | White a | EmptyEmpty8,9
-black black10,11
-black black11,12
-white white14,15
-white white15,16
-empty empty18,19
-empty empty19,20
-data Board Board22,23
-data Board a = Board Board22,23
-instance instance24,25
-type QField QField36,37
-type QBoard QBoard37,38
-end end39,40
-end end40,41
+./src/Examples/Four.hs,541
+module Examples.Four Examples.Four2,3
+data Field Field12,13
+data Field = X X12,13
+data Field = X | O O12,13
+data Field = X | O | Empty Empty12,13
+instance instance14,15
+data Four Four21,22
+data Four = Four Four21,22
+start start41,42
+start start42,43
+xwins xwins44,45
+place place46,47
+place place47,48
+place' place'57,58
+next next59,60
+next next60,61
+heur heur62,63
+heur heur63,64
+end end92,93
+end end93,94
+playAgainst playAgainst125,126
+playAgainst playAgainst126,127
+printInfo printInfo140,141
+
+./src/Examples/GameQueens.hs,855
+module Examples.GameQueens Examples.GameQueens4,5
+data QPiece QPiece12,13
+data QPiece = Stone Stone12,13
+data QPiece = Stone | Queen Queen12,13
+data Field Field14,15
+data Field a = Black Black14,15
+data Field a = Black a | White White14,15
+data Field a = Black a | White a | Empty Empty14,15
+instance instance16,17
+black black23,24
+black black24,25
+white white27,28
+white white28,29
+empty empty31,32
+empty empty32,33
+queen queen35,36
+queen queen36,37
+color color40,41
+color color41,42
+data Board Board45,46
+data Board a = Board Board45,46
+type QField QField64,65
+type QBoard QBoard65,66
+start start67,68
+start start68,69
+end end70,71
+end end71,72
+next next77,78
+next next78,79
+lu lu112,113
+lu lu113,114
+ld ld115,116
+ld ld116,117
+ru ru118,119
+ru ru119,120
+rd rd121,122
+rd rd122,123
 
 ./src/Examples/Tic.hs,554
 module Examples.Tic Examples.Tic2,3
@@ -207,12 +248,13 @@ end end68,69
 next next70,71
 next next71,72
 
-./src/Main.hs,86
+./src/Main.hs,107
 module Main Main0,1
-main main10,11
-memo memo15,16
-prio prio17,18
-ab ab19,20
+--main --main10,11
+main main11,12
+memo memo14,15
+prio prio16,17
+ab ab18,19
 
 ./src/Search/Uninformed.hs,275
 module Search.Uninformed Search.Uninformed0,1
@@ -232,44 +274,53 @@ module Search.Online Search.Online0,1
 lrta lrta6,7
 lrta lrta7,8
 
-./src/Search/Adversarial.hs,1006
+./src/Search/Adversarial.hs,1229
 module Search.Adversarial Search.Adversarial5,6
-class Heuristic Heuristic20,21
-class Heuristic Heuristic20,21
-  heuristic heuristic21,22
-  inverted inverted22,23
+class Heuristic Heuristic21,22
+class Heuristic Heuristic21,22
+  heuristic heuristic22,23
   inverted inverted23,24
-data GTreeT GTreeT25,26
-data GTreeT f a = End End25,26
-data GTreeT f a = End a Double | Cutoff Cutoff25,26
-data GTreeT f a = End a Double | Cutoff a Double | Next Next25,26
-type GTree GTree26,27
-type GTree a a26,27
-instance instance28,29
---data --data33,34
-childs childs35,36
-childs childs36,37
-value value39,40
-value value40,41
-done done44,45
-done done45,46
-move move49,50
-move move50,51
-headS headS59,60
-headS headS60,61
-minMax minMax63,64
-minMax minMax64,65
-minMaxAB minMaxAB89,90
-minMaxAB minMaxAB90,91
-minMaxAB' minMaxAB'117,118
-minMaxAB' minMaxAB'118,119
-type GTreeP GTreeP155,156
-minMaxABPrio minMaxABPrio157,158
-minMaxABPrio minMaxABPrio158,159
-foldrM' foldrM'187,188
-foldrM' foldrM'188,189
-foldlM' foldlM'194,195
-foldlM' foldlM'195,196
+  inverted inverted24,25
+instance instance26,27
+data GTreeT GTreeT29,30
+data GTreeT f a = End End29,30
+data GTreeT f a = End a Double | Cutoff Cutoff29,30
+data GTreeT f a = End a Double | Cutoff a Double | Next Next29,30
+type GTree GTree30,31
+type GTree a a30,31
+--data --data37,38
+childs childs39,40
+childs childs40,41
+value value43,44
+value value44,45
+done done48,49
+done done49,50
+move move53,54
+move move54,55
+moveTree moveTree58,59
+moveTree moveTree59,60
+choose choose63,64
+choose choose64,65
+minDepth minDepth70,71
+minDepth minDepth71,72
+maxDepth maxDepth74,75
+maxDepth maxDepth75,76
+bestDepth bestDepth78,79
+headS headS86,87
+headS headS87,88
+minMax minMax90,91
+minMax minMax91,92
+minMaxAB minMaxAB116,117
+minMaxAB minMaxAB117,118
+minMaxAB' minMaxAB'144,145
+minMaxAB' minMaxAB'145,146
+type GTreeP GTreeP182,183
+minMaxABPrio minMaxABPrio184,185
+minMaxABPrio minMaxABPrio185,186
+foldrM' foldrM'214,215
+foldrM' foldrM'215,216
+foldlM' foldlM'221,222
+foldlM' foldlM'222,223
 
 ./src/Search/Informed.hs,542
 module Search.Informed Search.Informed0,1
@@ -438,6 +489,10 @@ module Util.Color Util.Color0,1
 hsvToRGB hsvToRGB2,3
 hsvToRGB hsvToRGB3,4
 
+./src/Util/EnumHelp.hs,63
+module Util.EnumHelp Util.EnumHelp3,4
+instance instance5,6
+
 ./src/Util/Tuples.hs,438
 module Util.Tuples Util.Tuples3,4
 class First First5,6
@@ -520,6 +575,14 @@ mergeSort mergeSort30,31
 mergeSort mergeSort31,32
 merge merge46,47
 merge merge47,48
+
+./src/Util/HeadC.hs,143
+module Util.HeadC Util.HeadC2,3
+class HeadC HeadC6,7
+class HeadC HeadC6,7
+  headC headC7,8
+  tailC tailC8,9
+instance instance10,11
 
 ./src/.stack-work/intero/intero2933gWg-TEMP.hs,0
 

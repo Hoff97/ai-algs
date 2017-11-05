@@ -58,7 +58,7 @@ place i@(Four b a) j
 place' = flip place
 
 next :: Four -> [Four]
-next f = filter (/= f) $ map (place f) [1..7]
+next f = filter (/= f) $ map (place f) [4,3,5,2,6,1,7]
 
 heur :: Four -> Double
 heur (Four b a)
@@ -123,19 +123,25 @@ play d f b = mv:play d mv (not b)
   where
     mv = move . runMemo $ minMaxAB' next end (Cutoff f 0,d,b,-100000,100000)-}
 
-playAgainst :: Int -> Four -> Bool -> Bool -> IO ()
-playAgainst d f b p
+playAgainst :: Int -> Four -> (GTreeP Four) -> Bool -> Bool -> IO ()
+playAgainst d f tree b p
   | end f = print "Game has ended" >> return ()
   | not p = do
-      let mv = runMemo $ minMaxABPrio next end (Cutoff f 0,d,b,-100000,100000)
-      print $ move mv
-      print $ heuristic mv
-      playAgainst d (move mv) b (not p)
+      let mv = runMemo $ minMaxABPrio next end (tree,d,b,-100000,100000)
+      printInfo mv
+      playAgainst d (move mv) (moveTree mv) b (not p)
   | otherwise = do
       print "Enter your move"
       i <- readLn
       let mv = place f i
       print mv
       print $ heuristic mv
-      playAgainst d mv b (not p)
+      playAgainst d mv (choose tree mv) b (not p)
 
+printInfo mv = do
+  print $ move mv
+  putStrLn $ "MaxDepth: " ++ show (maxDepth mv)
+  putStrLn $ "MinDepth: " ++ show (minDepth mv)
+  putStrLn $ "BestDepth: " ++ show (bestDepth mv)
+  putStrLn $ "Heuristic: " ++ show (heuristic mv)
+  putStrLn $ "Children: " ++ show (childs mv)

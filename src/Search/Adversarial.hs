@@ -11,6 +11,7 @@ import Data.Maybe (fromMaybe)
 import Util.Tuples
 import Debug.Trace
 import Util.Memoize
+import Util.HeadC
 
 
 import Data.Foldable (foldrM,foldlM)
@@ -50,10 +51,33 @@ done (End _ _) = True
 done (Cutoff _ _) = False
 done (Next _ _ _ d _) = d
 
-move :: GTreeP a -> a
+move :: HeadC f => GTreeT f a -> a
 move (End a _) = a
 move (Cutoff a _) = a
-move (Next _ _ _ _ ls) = value . snd . findMax $ ls
+move (Next a _ _ _ ls) = fromMaybe a (value <$> headC ls)
+
+moveTree :: HeadC f => GTreeT f a -> GTreeT f a
+moveTree n@(End _ _) = n
+moveTree n@(Cutoff _ _) = n
+moveTree n@(Next a _ _ _ ls) = fromMaybe n (headC ls)
+
+choose :: (Foldable f,Eq a) => GTreeT f a -> a -> GTreeT f a
+choose n@(Next _ _ _ _ ls) a = fromMaybe n (foldr getEl Nothing ls)
+  where
+    getEl _ r@(Just _) = r
+    getEl a' Nothing = if a==value a' then Just a' else Nothing
+choose n a = Cutoff a 0
+
+minDepth :: Foldable f => GTreeT f a -> Int
+minDepth (Next _ _ _ _ ls) = 1+foldr (min . minDepth) 100000 ls
+minDepth _ = 1
+
+maxDepth :: Foldable f => GTreeT f a -> Int
+maxDepth (Next _ _ _ _ ls) = 1+foldr (max . maxDepth) 0 ls
+maxDepth _ = 1
+
+bestDepth (Next _ _ _ _ ls) = fromMaybe 0 (bestDepth <$> headC ls) + 1
+bestDepth _ = 1
 
 instance Heuristic a => Heuristic (GTreeT f a) where
   heuristic (End _ h)      = h

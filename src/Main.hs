@@ -8,8 +8,8 @@ import           Examples.Four
 import           Search.Adversarial
 import           Util.Memoize
 
-main = playAgainst 100000 start False True
---  print . childs . runMemo $ minMaxAB' next end (Cutoff start 0,10000000,True,-10000,10000)
+--main = playAgainst 50000000 start (Cutoff start 0) False True
+main = print . move . runMemo $ minMaxABPrio next end (Cutoff start 0,1000000,True,-100000,100000)
 
 
 memo m n = childs . runMemo $ minMaxAB' next end (Cutoff start 0,m+n-n,True,-10000,10000)
