@@ -140,6 +140,83 @@ generateRandomList generateRandomList60,61
 generateDistinctList generateDistinctList66,67
 generateDistinctList generateDistinctList67,68
 
+./src/Examples/Chess.hs,1778
+module Examples.Chess Examples.Chess5,6
+data CPiece CPiece20,21
+data CPiece = Pawn Pawn20,21
+data CPiece = Pawn Bool | Rook Rook20,21
+data CPiece = Pawn Bool | Rook Bool | Queen Queen20,21
+data CPiece = Pawn Bool | Rook Bool | Queen | King King20,21
+data CPiece = Pawn Bool | Rook Bool | Queen | King Bool | Bishop Bishop20,21
+data CPiece = Pawn Bool | Rook Bool | Queen | King Bool | Bishop | Knight Knight20,21
+instance instance22,23
+data Field Field32,33
+data Field a = Black Black32,33
+data Field a = Black a | White White32,33
+data Field a = Black a | White a | Empty Empty32,33
+piece piece41,42
+piece piece42,43
+black black46,47
+black black47,48
+white white50,51
+white white51,52
+empty empty54,55
+empty empty55,56
+queen queen58,59
+queen queen59,60
+king king61,62
+king king62,63
+pawn pawn66,67
+pawn pawn67,68
+rook rook71,72
+rook rook72,73
+bishop bishop76,77
+bishop bishop77,78
+knight knight79,80
+knight knight80,81
+color color82,83
+color color83,84
+wP wP87,88
+bP bP88,89
+wB wB89,90
+bB bB90,91
+wN wN91,92
+bN bN92,93
+wR wR93,94
+bR bR94,95
+wQ wQ95,96
+bQ bQ96,97
+wK wK97,98
+bK bK98,99
+enPassant enPassant100,101
+rochade rochade103,104
+data Board Board107,108
+data Board a = Board Board107,108
+board board109,110
+board board110,111
+type CField CField137,138
+type CBoard CBoard138,139
+start start140,141
+start start141,142
+up up150,151
+up up151,152
+down down153,154
+down down154,155
+right right156,157
+right right157,158
+left left159,160
+left left160,161
+lup lup162,163
+lup lup163,164
+rup rup165,166
+rup rup166,167
+ldown ldown168,169
+ldown ldown169,170
+rdown rdown171,172
+rdown rdown172,173
+moves moves174,175
+moves moves175,176
+
 ./src/Examples/Queens.hs,364
 module Examples.Queens Examples.Queens0,1
 newtype QBoard QBoard5,6
@@ -599,6 +676,10 @@ class HeadC HeadC6,7
   headC headC7,8
   tailC tailC8,9
 instance instance10,11
+
+./src/Util/NumClass.hs,63
+module Util.NumClass Util.NumClass0,1
+instance instance2,3
 
 ./src/.stack-work/intero/intero2933gWg-TEMP.hs,0
 
