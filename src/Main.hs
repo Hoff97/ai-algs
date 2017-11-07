@@ -6,7 +6,7 @@ import           Examples.GameQueens
 import           Search.Adversarial
 import           Util.Memoize
 
-main = playAgainst 100000 start (Cutoff start 0) False True
+main = playPC 1000000 start (Cutoff start 0) True
 
 
 memo m n = childs . runMemo $ minMaxAB' next end (Cutoff start 0,m+n-n,True,-10000,10000)

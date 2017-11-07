@@ -8,6 +8,7 @@ module Examples.GameQueens where
 import           Data.Array
 import           Data.Foldable
 import           Data.Hashable
+import           Data.Maybe         (fromMaybe)
 import           Debug.Trace
 import           GHC.Generics
 import           Search.Adversarial
@@ -54,13 +55,16 @@ color Empty     = Empty
 
 data Board a = Board (Array (Int,Int) a) Bool deriving (Eq, Generic)
 
+board :: Board a -> Array (Int, Int) a
+board (Board a _) = a
+
 instance Hashable a => Hashable (Board a) where
   hashWithSalt salt (Board a b) = hashWithSalt salt (elems a,b)
 
 instance Show QBoard where
-  show (Board a _) = "+-+-+-+-+-+-+-+-+\n" ++ concat rows ++ "+-+-+-+-+-+-+-+-+"
+  show (Board a _) = "+1+2+3+4+5+6+7+8+\n" ++ concat rows ++ "+1+2+3+4+5+6+7+8+"
     where
-      rows = map (\(i,j) -> "|" ++ (if i `mod` 2 == 0 then " |" else "") ++ show (a!(i,j)) ++ (if i `mod` 2 == 1 then "| " else "") ++ (if j==3 then "|\n" else "")) [(0,0)..(7,3)]
+      rows = map (\(i,j) -> "|" ++ (if i `mod` 2 == 0 then " |" else "") ++ show (a!(i,j)) ++ (if i `mod` 2 == 1 then "| " else "") ++ (if j==3 then "|" ++ show (i+1) ++ "\n" else "")) [(0,0)..(7,3)]
 
 instance Heuristic QPiece where
   heuristic Stone = 1
@@ -71,8 +75,8 @@ instance Heuristic a => Heuristic (Field a) where
   heuristic (White p) = heuristic p
   heuristic Empty     = 0
 
-instance Heuristic a => Heuristic (Board a) where
-  heuristic (Board a _) = sum . fmap heuristic $ a
+instance Heuristic QBoard where
+  heuristic = heur
 
 type QField = Field QPiece
 type QBoard = Board QField
@@ -80,13 +84,15 @@ type QBoard = Board QField
 start :: QBoard
 start = Board (listArray ((0,0),(7,3)) $ replicate 12 (White Stone) ++ replicate 8 Empty ++ replicate 12 (Black Stone)) True
 
+test = Board (listArray ((0,0),(7,3)) $ replicate 20 Empty ++ replicate 12 (Black Stone)) True
+
 w = White Stone
 q = White Queen
 b = Black Stone
 e = Empty
 
 end :: QBoard -> Bool
-end (Board a _) = onlyBlack || onlyWhite
+end g@(Board a _) = onlyBlack || onlyWhite || null (next g)
   where
     onlyBlack = foldr (\a b -> b && (black a || empty a)) True a
     onlyWhite = foldr (\a b -> b && (white a || empty a)) True a
@@ -178,14 +184,31 @@ playAgainst d f tree b p
       printInfo mv
       playAgainst d (move mv) (moveTree mv) b (not p)
   | otherwise = do
-      let n = zip [1..] $ next f
-      mapM_ print n
+      let n = next f
       print "Enter your move"
-      i <- readLn
-      let mv = snd $ n!!(i-1)
+      mv <- doValidMove f n
       print mv
       print $ heuristic mv
       playAgainst d mv (choose tree mv) b (not p)
+
+playPC :: Int -> QBoard -> (GTreeP QBoard) -> Bool -> IO ()
+playPC d f tree b
+  | end f = print "Game has ended" >> return ()
+  | otherwise = do
+      let mv = runMemo $ minMaxABPrio next end (tree,d,b,-100000,100000)
+      printInfo mv
+      playPC d (move mv) (moveTree mv) (not b)
+
+doValidMove :: QBoard -> [QBoard] -> IO QBoard
+doValidMove f next = do
+  print f
+  (i,j,n) <- readLn
+  let j' = (j-1) `div` 2
+  if (board f)!(i-1,j') /= Empty && i>0 && j'>=0 && i<9 && j'<=3
+    then case filter ((==Empty) . (!(i-1,j')) . board) next of
+           [] -> doValidMove f next
+           ls -> if n>length ls then doValidMove f next else return $ ls!!(n-1)
+    else doValidMove f next
 
 printInfo mv = do
   print $ move mv

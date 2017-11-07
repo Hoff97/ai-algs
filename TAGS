@@ -183,44 +183,61 @@ playAgainst playAgainst125,126
 playAgainst playAgainst126,127
 printInfo printInfo140,141
 
-./src/Examples/GameQueens.hs,855
-module Examples.GameQueens Examples.GameQueens4,5
-data QPiece QPiece12,13
-data QPiece = Stone Stone12,13
-data QPiece = Stone | Queen Queen12,13
-data Field Field14,15
-data Field a = Black Black14,15
-data Field a = Black a | White White14,15
-data Field a = Black a | White a | Empty Empty14,15
-instance instance16,17
-black black23,24
-black black24,25
-white white27,28
-white white28,29
-empty empty31,32
-empty empty32,33
-queen queen35,36
-queen queen36,37
-color color40,41
-color color41,42
-data Board Board45,46
-data Board a = Board Board45,46
-type QField QField64,65
-type QBoard QBoard65,66
-start start67,68
-start start68,69
-end end70,71
-end end71,72
-next next77,78
-next next78,79
-lu lu112,113
-lu lu113,114
-ld ld115,116
-ld ld116,117
-ru ru118,119
-ru ru119,120
-rd rd121,122
-rd rd122,123
+./src/Examples/GameQueens.hs,1229
+module Examples.GameQueens Examples.GameQueens5,6
+data QPiece QPiece18,19
+data QPiece = Stone Stone18,19
+data QPiece = Stone | Queen Queen18,19
+data Field Field22,23
+data Field a = Black Black22,23
+data Field a = Black a | White White22,23
+data Field a = Black a | White a | Empty Empty22,23
+instance instance26,27
+black black33,34
+black black34,35
+white white37,38
+white white38,39
+empty empty41,42
+empty empty42,43
+queen queen45,46
+queen queen46,47
+color color50,51
+color color51,52
+data Board Board55,56
+data Board a = Board Board55,56
+board board57,58
+board board58,59
+type QField QField80,81
+type QBoard QBoard81,82
+start start83,84
+start start84,85
+test test86,87
+w w88,89
+q q89,90
+b b90,91
+e e91,92
+end end93,94
+end end94,95
+next next99,100
+next next100,101
+inBounds inBounds154,155
+lu lu156,157
+lu lu157,158
+ld ld159,160
+ld ld160,161
+ru ru162,163
+ru ru163,164
+rd rd165,166
+rd rd166,167
+heur heur168,169
+heur heur169,170
+playAgainst playAgainst178,179
+playAgainst playAgainst179,180
+playPC playPC193,194
+playPC playPC194,195
+doValidMove doValidMove201,202
+doValidMove doValidMove202,203
+printInfo printInfo212,213
 
 ./src/Examples/Tic.hs,554
 module Examples.Tic Examples.Tic2,3
@@ -248,13 +265,12 @@ end end68,69
 next next70,71
 next next71,72
 
-./src/Main.hs,107
+./src/Main.hs,84
 module Main Main0,1
---main --main10,11
-main main11,12
-memo memo14,15
-prio prio16,17
-ab ab18,19
+main main8,9
+memo memo11,12
+prio prio13,14
+ab ab15,16
 
 ./src/Search/Uninformed.hs,275
 module Search.Uninformed Search.Uninformed0,1
