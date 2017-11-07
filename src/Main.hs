@@ -1,15 +1,12 @@
 module Main where
 
-import           Criterion
-import           Criterion.Main
 import           Data.Time
 import           Examples.Memo
-import           Examples.Four
+import           Examples.GameQueens
 import           Search.Adversarial
 import           Util.Memoize
 
---main = playAgainst 50000000 start (Cutoff start 0) False True
-main = print . move . runMemo $ minMaxABPrio next end (Cutoff start 0,1000000,True,-100000,100000)
+main = playAgainst 100000 start (Cutoff start 0) False True
 
 
 memo m n = childs . runMemo $ minMaxAB' next end (Cutoff start 0,m+n-n,True,-10000,10000)
