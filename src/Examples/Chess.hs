@@ -86,7 +86,9 @@ color (White _) = White ()
 color Empty     = Empty
 
 wP = White (Pawn False)
+wP' = White (Pawn True)
 bP = Black (Pawn False)
+bP' = Black (Pawn True)
 wB = White Bishop
 bB = Black Bishop
 wN = White Knight
@@ -97,8 +99,10 @@ wQ = White Queen
 bQ = Black Queen
 wK = White (King True)
 bK = Black (King True)
+ee = Empty
 
-enPassant (Pawn b) = b
+enPassant (Black (Pawn b)) = b
+enPassant (White (Pawn b)) = b
 enPassant _        = False
 
 rochade (King b) = b
@@ -148,6 +152,17 @@ start = Board (listArray ((0,0),(7,7)) $ [
                 bR,bN,bB,bK,bQ,bB,bN,bR
               ]) True
 
+test :: CBoard
+test = Board (listArray ((0,0),(7,7)) $ [
+                  wR,wN,wB,wK,wQ,wB,wN,wR,
+                  ee,wP,wP,wP,wP,wP,wP,wP,
+                  ee,ee,ee,ee,ee,ee,ee,ee,
+                  wP,bP,ee,ee,ee,ee,ee,ee] ++ replicate 16 Empty ++
+              [
+                bP,bP,bP,bP,bP,bP,bP,bP,
+                bR,bN,bB,bK,bQ,bB,bN,bR
+              ]) True
+
 up :: (Int,Int) -> (Int,Int)
 up (i,j) = (i+1,j)
 
@@ -172,9 +187,19 @@ ldown (i,j) = (i-1,j-1)
 rdown :: (Int,Int) -> (Int,Int)
 rdown (i,j) = (i-1,j+1)
 
+makeP :: CField -> CField
+makeP (White (Pawn _)) = White (Pawn True)
+makeP (Black (Pawn _)) = Black (Pawn True)
+makeP a = a
+
+unmakeP :: CField -> CField
+unmakeP (White (Pawn _)) = White (Pawn False)
+unmakeP (Black (Pawn _)) = Black (Pawn False)
+unmakeP a = a
+
 moves :: CBoard -> (Int,Int) -> [(CBoard,Int,Int)]
 moves (Board a p) (i,j)
-  | pawn piece = undefined --Handle moving 2 at start + enpassant
+  | pawn piece = pawnM
   | bishop piece = [rup,lup,rdown,ldown] >>= walk (i,j)
   | knight piece = [(-2,-1),(-1,-2),(2,1),(1,2),(-1,2),(2,-1),(-2,1),(1,-2)] >>= (moveOrBeat . ((i,j)+))
   | rook piece = [up,down,left,right] >>= walk (i,j)
@@ -182,6 +207,11 @@ moves (Board a p) (i,j)
   | king piece = undefined --Note: King has to handle rochade + being able to move to a place
   | otherwise = trace "Error - Chess.moves: A non-standard piece was found!!" []
     where
+      pawnM = pawnMove ++ pawnBeat
+      pawnMove = (dir,0):(if i == baseLine then [(dir*2,0)] else []) >>= (moveP . ((i,j)+))
+      pawnBeat = [(dir,-1),(dir,1)] >>= (beatP . ((i,j)+))
+      dir = if white piece then 1 else -1
+      baseLine = if white piece then 1 else 6
       walk (c,d) f
         | c<0 || d < 0 || c>7 || d>7 = []
         | c == i && d == j = walk (f (c,d)) f
@@ -190,6 +220,19 @@ moves (Board a p) (i,j)
         | otherwise = []
           where
             p' = a!(c,d)
+      moveP (c,d)
+        | c<0 || d < 0 || c>7 || d>7 = []
+        | empty p' = [(Board (a//[((i,j),Empty),((c,d),if (i-c) == 2 then makeP piece else unmakeP piece)]) (not p),c,d)]
+        | otherwise = []
+          where p' = a!(c,d)
+      beatP (c,d)
+        | c<0 || d < 0 || c>7 || d>7 = []
+        | not (empty p') && color piece /= color p' && not (king p') = [(Board (a//[((i,j),Empty),((c,d),unmakeP piece)]) (not p),c,d)]
+        | empty p' && not (empty pessant) && color pessant /= color piece && enPassant pessant = [(Board (a//[((i,j),Empty),((c,d),unmakeP piece),((c-dir,d),Empty)]) (not p),c,d)]
+        | otherwise = []
+          where
+            p' = a!(c,d)
+            pessant = a!(c-dir,d)
       moveOrBeat (c,d)
         | c<0 || d < 0 || c>7 || d>7 = []
         | empty p' = [(Board (a//[((i,j),Empty),((c,d),piece)]) (not p),c,d)]
