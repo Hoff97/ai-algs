@@ -142,6 +142,11 @@ instance Heuristic a => Heuristic (Field a) where
 type CField = Field CPiece
 type CBoard = Board CField
 
+clear :: CBoard -> (Int,Int) -> Bool
+clear (Board a p) (i,j)
+  | i<0 || j<0 || i>7 || j>7 = True
+  | otherwise = empty $ a!(i,j)
+
 start :: CBoard
 start = Board (listArray ((0,0),(7,7)) $ [
                   wR,wN,wB,wK,wQ,wB,wN,wR,
@@ -155,11 +160,11 @@ start = Board (listArray ((0,0),(7,7)) $ [
 test :: CBoard
 test = Board (listArray ((0,0),(7,7)) $ [
                   wR,wN,wB,wK,wQ,wB,wN,wR,
-                  ee,wP,wP,wP,wP,wP,wP,wP,
+                  ee,wP,ee,ee,wP,wP,wP,wP,
                   ee,ee,ee,ee,ee,ee,ee,ee,
                   wP,bP,ee,ee,ee,ee,ee,ee] ++ replicate 16 Empty ++
               [
-                bP,bP,bP,bP,bP,bP,bP,bP,
+                bP,bP,bP,ee,bP,bP,bP,bP,
                 bR,bN,bB,bK,bQ,bB,bN,bR
               ]) True
 
@@ -218,7 +223,37 @@ pawnM (Board a p) (i,j) = pawnMove ++ pawnBeat
       | otherwise = []
       where p' = a!(c,d)
 
-walkKing (Board a p) (i,j) f = undefined
+walkKing g@(Board a p) (i,j) f
+  | c<0 || d<0 || c>7 || d>7 = []
+  | empty (a!(c,d)) && allClear = [(Board (a//[((i,j),Empty),((c,d),unRochade piece)]) (not p),c,d)]
+  | otherwise = []
+  where
+    piece = a!(i,j)
+    (c,d) = f (i,j)
+    allClear = dirClear && knightClear
+    knightClear = all (notEnemyKnight . ((c,d)+)) [(-2,-1),(-1,-2),(2,1),(1,2),(-1,2),(2,-1),(-2,1),(1,-2)]
+    dirClear = all (walkSafe (c,d)) [up,down,left,right,rup,lup,rdown,ldown]
+    notEnemyKnight (i',j')
+      | i'<0 || j'<0 || i'>7 || j' > 7 = True
+      | otherwise = not (knight (a!(i',j')) && color (a!(i',j')) /= color piece)
+    walkSafe (i',j') f
+      | i'<0 || j'<0 || i'>7 || j' > 7 = True
+      | empty $ a!(i',j') = walkSafe (f (i',j')) f
+      | color piece == color (a!(i',j')) = True
+      | (queen (a!(i',j')) || bishop (a!(i',j'))) && abs (c-i') == abs (d-j') = False
+      | (queen (a!(i',j')) || rook (a!(i',j'))) && ((c-i')*(d-j')==0) = False
+      | (king (a!(i',j')) && distance (i',j') (c,d) == 1) = False
+      | pawn (a!(i',j')) && abs (d-j') == 1 && c-i' == (if white (a!(i',j')) then 1 else -1) = False
+      | otherwise = True
+
+distance (a,b) (c,d) = max (a-c) (b-d)
+
+unRochade :: CField -> CField
+unRochade (White (King _)) = White (King False)
+unRochade (Black (King _)) = Black (King False)
+unRochade a = a
+
+rochadeKing g (i,j) = undefined
 
 moves :: CBoard -> (Int,Int) -> [(CBoard,Int,Int)]
 moves g@(Board a p) (i,j)
@@ -227,7 +262,7 @@ moves g@(Board a p) (i,j)
   | knight piece = [(-2,-1),(-1,-2),(2,1),(1,2),(-1,2),(2,-1),(-2,1),(1,-2)] >>= (moveOrBeat . ((i,j)+))
   | rook piece = [up,down,left,right] >>= walk (i,j)
   | queen piece = [up,down,left,right,rup,lup,rdown,ldown] >>= walk (i,j)
-  | king piece = [up,down,left,right,rup,lup,rdown,ldown] >>= (walkKing g (i,j))
+  | king piece = ([up,down,left,right,rup,lup,rdown,ldown] >>= (walkKing g (i,j))) ++ rochadeKing g (i,j)
   | otherwise = trace "Error - Chess.moves: A non-standard piece was found!!" []
     where
       walk (c,d) f
